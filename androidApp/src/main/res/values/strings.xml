@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">NBA</string>
+
+    <!-- Generic -->
+    <string name="api_error">Error from API.</string>
+
+    <!-- List Screen -->
+    <string name="player_list">Player list</string>
+
+    <!-- Details Screen -->
+    <string name="player_detail">Player detail: %s</string>
+</resources>
