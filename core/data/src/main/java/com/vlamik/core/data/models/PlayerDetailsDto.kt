@@ -5,6 +5,20 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PlayerDetailsDto(
-    @SerialName("title")
-    val title: String
+    @SerialName("id")
+    val id: Int,
+    @SerialName("first_name")
+    val firstName: String,
+    @SerialName("last_name")
+    val lastName: String,
+    @SerialName("position")
+    val position: String,
+    @SerialName("height_feet")
+    val heightFeet: Int?,
+    @SerialName("height_inches")
+    val heightInches: Int?,
+    @SerialName("weight_pounds")
+    val weightPounds: Int?,
+    @SerialName("team")
+    val team: TeamDetailsDto
 )

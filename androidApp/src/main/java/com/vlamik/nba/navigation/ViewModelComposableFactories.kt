@@ -7,15 +7,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dagger.hilt.android.EntryPointAccessors
 import com.vlamik.nba.MainActivity.ViewModelFactoryProvider
-import com.vlamik.nba.features.details.PlayersDetailsViewModel
+import com.vlamik.nba.features.details.PlayerDetailsViewModel
 
 interface BaseViewModelFactoryProvider {
-    fun getDetailsViewModelFactory(): PlayersDetailsViewModel.Factory
+    fun getDetailsViewModelFactory(): PlayerDetailsViewModel.Factory
 }
 
 @Composable
-fun detailViewModel(playerId: String): PlayersDetailsViewModel = viewModel(
-    factory = PlayersDetailsViewModel.provideFactory(
+fun detailViewModel(playerId: Int): PlayerDetailsViewModel = viewModel(
+    factory = PlayerDetailsViewModel.provideFactory(
         getViewModelFactoryProvider().getDetailsViewModelFactory(),
         playerId
     )

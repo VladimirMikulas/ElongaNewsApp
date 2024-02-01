@@ -5,11 +5,17 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,6 +37,7 @@ import com.vlamik.nba.features.list.PlayerListViewModel.ListScreenUiState.ErrorF
 import com.vlamik.nba.features.list.PlayerListViewModel.ListScreenUiState.LoadingFromAPI
 import com.vlamik.nba.features.list.PlayerListViewModel.ListScreenUiState.UpdateSuccess
 import com.vlamik.nba.theme.TemplateTheme
+import com.vlamik.nba.theme.normalPadding
 import com.vlamik.nba.utils.preview.DeviceFormatPreview
 import com.vlamik.nba.utils.preview.FontScalePreview
 import com.vlamik.nba.utils.preview.ThemeModePreview
@@ -38,7 +45,7 @@ import com.vlamik.nba.utils.preview.ThemeModePreview
 @Composable
 fun PlayerListScreen(
     listViewModel: PlayerListViewModel,
-    openDetailsClicked: (String) -> Unit,
+    openDetailsClicked: (Int) -> Unit,
 ) {
     val playerListUpdateState by listViewModel.state.collectAsState()
 
@@ -57,7 +64,7 @@ fun PlayerListScreen(
 private fun ListPlayers(
     state: ListScreenUiState,
     onRefresh: () -> Unit,
-    onDetailsClicked: (String) -> Unit,
+    onDetailsClicked: (Int) -> Unit,
 ) = SwipeRefresh(
     state = rememberSwipeRefreshState(state == LoadingFromAPI),
     onRefresh = onRefresh,
@@ -74,17 +81,29 @@ private fun ListPlayers(
     Column {
         Text(
             text = stringResource(id = R.string.player_list),
-            style = MaterialTheme.typography.headlineSmall
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier.padding(normalPadding)
         )
-        LazyColumn {
+        val listState = rememberLazyListState()
+        LazyColumn(state = listState) {
             itemsIndexed(players) { _, player ->
-                Row(
+                ElevatedCard(
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 6.dp
+                    ),
                     modifier = Modifier
-                        .clickable { onDetailsClicked(player.key) }
-                        .padding(vertical = 16.dp)
+                        .fillMaxWidth()
+                        .clickable { onDetailsClicked(player.id) }
                 ) {
-                    Text(text = player.title)
+                    Row(
+                        modifier = Modifier
+                            .padding(vertical = 16.dp, horizontal = 8.dp)
+                    ) {
+                        Text(text = player.firstName.plus(" ${player.lastName}"))
+                    }
                 }
+                Spacer(modifier = Modifier.height(8.dp))
+
             }
         }
     }
@@ -102,11 +121,10 @@ private fun ListScreenPreview() {
         ListPlayers(
             state = UpdateSuccess(
                 (1..10).map {
-                    Player(it.toString(), "Preview $it")
+                    Player(237, "LeBron", "James", "F", "Lakers")
                 }
             ),
-            onRefresh = {},
-            onDetailsClicked = {}
-        )
+            onRefresh = {}
+        ) {}
     }
 }

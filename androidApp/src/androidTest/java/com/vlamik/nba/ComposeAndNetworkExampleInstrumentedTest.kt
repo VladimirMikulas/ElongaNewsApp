@@ -47,7 +47,7 @@ class ComposeAndNetworkExampleInstrumentedTest {
     @Test
     fun listPlayersSuccess() {
         MockOpenLibraryApi.giveResponse(
-            request = OpenLibraryEndpoint.search("Android"),
+            request = OpenLibraryEndpoint.players(),
             response = MockOpenLibraryApi.ResponseValue(
                 statusCode = HttpStatusCode.OK,
                 content = DataTestResources.playerListJson()
@@ -75,7 +75,7 @@ class ComposeAndNetworkExampleInstrumentedTest {
     @Test
     fun listPlayersError() {
         MockOpenLibraryApi.giveResponse(
-            request = OpenLibraryEndpoint.search("Android"),
+            request = OpenLibraryEndpoint.players(1),
             response = MockOpenLibraryApi.ResponseValue(
                 statusCode = HttpStatusCode.BadRequest
             )

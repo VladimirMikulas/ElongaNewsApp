@@ -12,8 +12,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class PlayersDetailsViewModel @AssistedInject constructor(
-    @Assisted playerId: String,
+class PlayerDetailsViewModel @AssistedInject constructor(
+    @Assisted playerId: Int,
     getPlayer: GetPlayer,
 ) : ViewModel() {
 
@@ -37,14 +37,14 @@ class PlayersDetailsViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(playerId: String): PlayersDetailsViewModel
+        fun create(playerId: Int): PlayerDetailsViewModel
     }
 
     companion object {
         @Suppress("UNCHECKED_CAST")
         fun provideFactory(
             factory: Factory,
-            playerId: String,
+            playerId: Int,
         ) = object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return factory.create(playerId) as T

@@ -2,11 +2,14 @@ package com.vlamik.core.commons.endpoints
 
 object OpenLibraryEndpoint {
     val baseUrl: String
-        get() = "openlibrary.org"
+        get() = "www.balldontlie.io/api/v1"
 
-    fun search(keyword: String, fields: String = "title,key", limit: Int = 10) =
-        "/search.json?q=$keyword&fields=$fields&limit=$limit"
+    fun players(page: Int = 1, perPage: Int = 35) =
+        "/players.json?page=$page&per_page=$perPage"
 
-    fun work(id: String) =
-        "/works/$id.json"
+    fun player(id: Int) =
+        "/players/$id.json"
+
+    fun team(id: Int) =
+        "/teams/$id.json"
 }

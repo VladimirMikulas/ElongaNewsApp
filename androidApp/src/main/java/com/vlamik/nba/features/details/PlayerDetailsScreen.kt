@@ -15,20 +15,20 @@ import com.vlamik.nba.R
 import com.vlamik.nba.component.Toast
 
 @Composable
-fun PlayerDetailsScreen(detailsViewModel: PlayersDetailsViewModel) {
+fun PlayerDetailsScreen(detailsViewModel: PlayerDetailsViewModel) {
     val playerListUpdateState by detailsViewModel.updateState.collectAsState()
 
     when (val state = playerListUpdateState) {
-        PlayersDetailsViewModel.UiState.ErrorFromAPI -> Toast(R.string.api_error)
-        PlayersDetailsViewModel.UiState.LoadingFromAPI -> Unit
-        is PlayersDetailsViewModel.UiState.Success -> {
+        PlayerDetailsViewModel.UiState.ErrorFromAPI -> Toast(R.string.api_error)
+        PlayerDetailsViewModel.UiState.LoadingFromAPI -> Unit
+        is PlayerDetailsViewModel.UiState.Success -> {
             Column(
                 modifier = Modifier
                     .systemBarsPadding()
                     .padding(16.dp)
             ) {
                 Text(
-                    text = stringResource(id = R.string.player_detail, state.player.title),
+                    text = stringResource(id = R.string.player_detail, state.player.firstName.plus(" ${state.player.lastName}")),
                     style = MaterialTheme.typography.headlineMedium
                 )
             }

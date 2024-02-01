@@ -5,6 +5,7 @@ import com.vlamik.core.commons.endpoints.OpenLibraryEndpoint
 import com.vlamik.core.commons.loge
 import com.vlamik.core.data.models.PlayerDetailsDto
 import com.vlamik.core.data.models.PlayerRecords
+import com.vlamik.core.data.models.TeamDetailsDto
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.url
@@ -18,11 +19,11 @@ class OpenLibraryService
     @BackgroundDispatcher private val coroutineContext: CoroutineContext
 ) {
 
-    suspend fun getPlayers(keyword: String): Result<PlayerRecords> = withContext(coroutineContext) {
+    suspend fun getPlayers(page: Int): Result<PlayerRecords> = withContext(coroutineContext) {
         return@withContext try {
             Result.success(
                 httpClient().get {
-                    url(path = OpenLibraryEndpoint.search(keyword))
+                    url(path = OpenLibraryEndpoint.players(page))
                 }.body()
             )
         } catch (e: Exception) {
@@ -31,15 +32,27 @@ class OpenLibraryService
         }
     }
 
-    suspend fun getPlayer(id: String): Result<PlayerDetailsDto> = withContext(coroutineContext) {
+    suspend fun getPlayer(id: Int): Result<PlayerDetailsDto> = withContext(coroutineContext) {
         return@withContext try {
             Result.success(
                 httpClient().get {
-                    url(path = OpenLibraryEndpoint.work(id))
+                    url(path = OpenLibraryEndpoint.player(id))
                 }.body()
             )
         } catch (e: Exception) {
             loge("Failed to get Player", e)
+            Result.failure(e)
+        }
+    }
+    suspend fun getTeam(id: Int): Result<TeamDetailsDto> = withContext(coroutineContext) {
+        return@withContext try {
+            Result.success(
+                httpClient().get {
+                    url(path = OpenLibraryEndpoint.team(id))
+                }.body()
+            )
+        } catch (e: Exception) {
+            loge("Failed to get Team", e)
             Result.failure(e)
         }
     }

@@ -15,13 +15,13 @@ fun TemplateNaveHost(
 ) {
     NavHost(navController = navController, startDestination = NavRoutes.List.path) {
         composable(NavRoutes.List.path) {
-            PlayerListScreen(hiltViewModel(), openDetailsClicked = {
+            PlayerListScreen(hiltViewModel()) {
                 navController.navigate(NavRoutes.Details.build(it))
-            })
+            }
         }
         composable(NavRoutes.Details.path) { backStackEntry ->
             backStackEntry.arguments?.getString(NavRoutes.DETAILS_ID_KEY)?.let {
-                PlayerDetailsScreen(detailViewModel(playerId = it))
+                PlayerDetailsScreen(detailViewModel(playerId = it.toInt()))
             }
         }
     }

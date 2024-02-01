@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PlayerRecords(
-    @SerialName("numFound")
-    val numFound: Int,
-    @SerialName("docs")
-    val docs: List<PlayerDto>,
+    @SerialName("data")
+    val data: List<PlayerDetailsDto>,
+    @SerialName("meta")
+    val meta: PlayerRecordsMeta,
 )
