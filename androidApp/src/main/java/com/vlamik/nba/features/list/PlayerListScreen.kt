@@ -6,7 +6,7 @@ import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
@@ -27,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.vlamik.core.domain.models.Player
@@ -36,6 +37,7 @@ import com.vlamik.nba.features.list.PlayerListViewModel.ListScreenUiState
 import com.vlamik.nba.features.list.PlayerListViewModel.ListScreenUiState.ErrorFromAPI
 import com.vlamik.nba.features.list.PlayerListViewModel.ListScreenUiState.LoadingFromAPI
 import com.vlamik.nba.features.list.PlayerListViewModel.ListScreenUiState.UpdateSuccess
+import com.vlamik.nba.theme.Shapes
 import com.vlamik.nba.theme.TemplateTheme
 import com.vlamik.nba.theme.normalPadding
 import com.vlamik.nba.utils.preview.DeviceFormatPreview
@@ -89,17 +91,34 @@ private fun ListPlayers(
             itemsIndexed(players) { _, player ->
                 ElevatedCard(
                     elevation = CardDefaults.cardElevation(
-                        defaultElevation = 6.dp
+                        defaultElevation = 8.dp
                     ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { onDetailsClicked(player.id) }
+                    shape = Shapes.medium,
+                    modifier = Modifier.clickable { onDetailsClicked(player.id) }
                 ) {
                     Row(
                         modifier = Modifier
-                            .padding(vertical = 16.dp, horizontal = 8.dp)
+                            .padding(horizontal = 8.dp)
+                            .fillMaxSize()
                     ) {
-                        Text(text = player.firstName.plus(" ${player.lastName}"))
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                        ) {
+                            Text(
+                                text = player.firstName.plus(" ${player.lastName}"),
+                                fontSize = 24.sp
+                            )
+                            Text(
+                                text = stringResource(
+                                    id = R.string.player_position,
+                                    player.position
+                                )
+                            )
+                            Text(text = stringResource(id = R.string.player_team, player.team))
+                        }
+
+
                     }
                 }
                 Spacer(modifier = Modifier.height(8.dp))

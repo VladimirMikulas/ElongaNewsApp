@@ -6,6 +6,9 @@
 
     <!-- List Screen -->
     <string name="player_list">NBA player list</string>
+    <string name="player_position">Position: %s</string>
+    <string name="player_team">Team: %s</string>
+
 
     <!-- Details Screen -->
     <string name="player_detail">Player detail: %s</string>
