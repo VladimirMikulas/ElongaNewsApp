@@ -16,16 +16,19 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,6 +42,7 @@ import com.vlamik.nba.component.Toast
 import com.vlamik.nba.features.list.PlayerListViewModel.ListScreenUiState
 import com.vlamik.nba.features.list.PlayerListViewModel.ListScreenUiState.ErrorFromAPI
 import com.vlamik.nba.features.list.PlayerListViewModel.ListScreenUiState.LoadingFromAPI
+import com.vlamik.nba.features.list.PlayerListViewModel.ListScreenUiState.LoadingMoreFromAPI
 import com.vlamik.nba.features.list.PlayerListViewModel.ListScreenUiState.UpdateSuccess
 import com.vlamik.nba.theme.Shapes
 import com.vlamik.nba.theme.TemplateTheme
@@ -56,9 +60,10 @@ fun PlayerListScreen(
 
     when (val state = playerListUpdateState) {
         ErrorFromAPI -> ErrorFromApi()
-        is UpdateSuccess, LoadingFromAPI -> ListPlayers(
+        is UpdateSuccess, LoadingFromAPI, LoadingMoreFromAPI -> ListPlayers(
             state = state,
             onRefresh = listViewModel::refresh,
+            onLoadMore = listViewModel::loadMore,
             onDetailsClicked = openDetailsClicked,
         )
     }
@@ -69,6 +74,7 @@ fun PlayerListScreen(
 private fun ListPlayers(
     state: ListScreenUiState,
     onRefresh: () -> Unit,
+    onLoadMore: () -> Unit,
     onDetailsClicked: (Int) -> Unit,
 ) = SwipeRefresh(
     state = rememberSwipeRefreshState(state == LoadingFromAPI),
@@ -90,7 +96,16 @@ private fun ListPlayers(
             modifier = Modifier.padding(normalPadding)
         )
         val listState = rememberLazyListState()
+        val isScrollToEnd by remember {
+            derivedStateOf {
+                listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index == listState.layoutInfo.totalItemsCount - 1
+            }
+        }
+        if (isScrollToEnd && state !== LoadingFromAPI && state !== LoadingMoreFromAPI) {
+            onLoadMore()
+        }
         LazyColumn(state = listState) {
+
             itemsIndexed(players) { _, player ->
                 ElevatedCard(
                     elevation = CardDefaults.cardElevation(
@@ -127,10 +142,18 @@ private fun ListPlayers(
                 }
                 Spacer(modifier = Modifier.height(8.dp))
 
+
+            }
+            if (state == LoadingMoreFromAPI) {
+                item {
+                    CircularProgressIndicator(color = Color.Red)
+                }
             }
         }
+
     }
 }
+
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -159,7 +182,8 @@ private fun ListScreenPreview() {
                     Player(237, "LeBron", "James", "F", "Lakers")
                 }
             ),
-            onRefresh = {}
+            onRefresh = {},
+            onLoadMore = {},
         ) {}
     }
 }
