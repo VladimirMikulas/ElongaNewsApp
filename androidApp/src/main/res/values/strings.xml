@@ -11,5 +11,9 @@
 
 
     <!-- Details Screen -->
-    <string name="player_detail">Player detail: %s</string>
+    <string name="player_detail_position">Position:</string>
+    <string name="player_detail_height_feet">Height feet:</string>
+    <string name="player_detail_height_inches">Height inches:</string>
+    <string name="player_detail_weight_pounds">Weight in pounds:</string>
+    <string name="player_detail_team">Team:</string>
 </resources>

@@ -10,13 +10,13 @@ import com.vlamik.nba.features.details.PlayerDetailsViewModel
 import dagger.hilt.android.EntryPointAccessors
 
 interface BaseViewModelFactoryProvider {
-    fun getDetailsViewModelFactory(): PlayerDetailsViewModel.Factory
+    fun getPlayerDetailsViewModelFactory(): PlayerDetailsViewModel.Factory
 }
 
 @Composable
 fun playerDetailViewModel(playerId: Int): PlayerDetailsViewModel = viewModel(
     factory = PlayerDetailsViewModel.provideFactory(
-        getViewModelFactoryProvider().getDetailsViewModelFactory(),
+        getViewModelFactoryProvider().getPlayerDetailsViewModelFactory(),
         playerId
     )
 )

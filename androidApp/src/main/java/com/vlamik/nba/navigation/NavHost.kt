@@ -21,7 +21,9 @@ fun NbaNavHost(
         }
         composable(NavRoutes.PlayerDetails.path) { backStackEntry ->
             backStackEntry.arguments?.getString(NavRoutes.DETAILS_ID_KEY)?.let {
-                PlayerDetailsScreen(playerDetailViewModel(playerId = it.toInt()))
+                PlayerDetailsScreen(playerDetailViewModel(playerId = it.toInt())) { id ->
+                    navController.navigate(NavRoutes.TeamDetails.build(id))
+                }
             }
         }
     }
