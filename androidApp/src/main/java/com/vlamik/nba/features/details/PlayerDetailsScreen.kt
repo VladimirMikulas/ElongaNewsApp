@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.vlamik.nba.R
 import com.vlamik.nba.component.Toast
@@ -28,8 +27,8 @@ fun PlayerDetailsScreen(detailsViewModel: PlayerDetailsViewModel) {
                     .padding(16.dp)
             ) {
                 Text(
-                    text = stringResource(id = R.string.player_detail, state.player.firstName.plus(" ${state.player.lastName}")),
-                    style = MaterialTheme.typography.headlineMedium
+                    text = state.player.firstName.plus(" ${state.player.lastName}"),
+                    style = MaterialTheme.typography.headlineLarge
                 )
             }
         }

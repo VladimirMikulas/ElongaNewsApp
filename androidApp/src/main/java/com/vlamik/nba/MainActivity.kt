@@ -13,16 +13,16 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
-import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.components.ActivityComponent
 import com.vlamik.nba.MainActivityViewModel.UiState
 import com.vlamik.nba.MainActivityViewModel.UiState.Loading
 import com.vlamik.nba.MainActivityViewModel.UiState.Success
 import com.vlamik.nba.navigation.BaseViewModelFactoryProvider
-import com.vlamik.nba.navigation.TemplateNaveHost
+import com.vlamik.nba.navigation.NbaNavHost
 import com.vlamik.nba.theme.TemplateTheme
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.components.ActivityComponent
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -76,7 +76,7 @@ class MainActivity : ComponentActivity() {
                 onDispose {}
             }
 
-            TemplateTheme { TemplateNaveHost() }
+            TemplateTheme { NbaNavHost() }
         }
     }
 }

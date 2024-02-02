@@ -1,6 +1,6 @@
 [versions]
-sdk-compile = "33"
-sdk-target = "33"
+sdk-compile = "34"
+sdk-target = "34"
 sdk-min = "23"
 
 gradle-android = "8.1.4"
@@ -11,6 +11,7 @@ compose-material = "1.0.1"
 compose-compiler = "1.4.6"
 compose-navigation = "2.5.3"
 compose-navigation-hilt = "1.0.0"
+glide = "1.0.0-beta01"
 accompanist = "0.30.1"
 datastore = "1.0.0"
 
@@ -44,12 +45,14 @@ compose-material-window = { group = "androidx.compose.material3", name = "materi
 
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "compose.navigation" }
 
-accompanist-swiperefresh = { group = "com.google.accompanist", name = "accompanist-swiperefresh", version.ref = "accompanist"}
-accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist"}
+accompanist-swiperefresh = { group = "com.google.accompanist", name = "accompanist-swiperefresh", version.ref = "accompanist" }
+accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
 
-datastore-android = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore"}
+glide = { group = "com.github.bumptech.glide", name = "compose", version.ref = "glide" }
 
-splashscreen = { group = "androidx.core", name = "core-splashscreen", version = "1.0.0"}
+datastore-android = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
+
+splashscreen = { group = "androidx.core", name = "core-splashscreen", version = "1.0.0" }
 
 # Lint check for Compose
 lint-api = { group = "com.android.tools.lint", name = "lint-api", version.ref = "lint" }
@@ -107,6 +110,7 @@ compose = [
     "compose-material",
     "compose-material-window",
     "androidx-navigation-compose",
+    "glide",
     "accompanist-swiperefresh",
     "accompanist-systemuicontroller"
 ]

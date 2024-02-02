@@ -10,18 +10,18 @@ import com.vlamik.nba.features.details.PlayerDetailsScreen
 import com.vlamik.nba.features.list.PlayerListScreen
 
 @Composable
-fun TemplateNaveHost(
+fun NbaNavHost(
     navController: NavHostController = rememberNavController(),
 ) {
-    NavHost(navController = navController, startDestination = NavRoutes.List.path) {
-        composable(NavRoutes.List.path) {
+    NavHost(navController = navController, startDestination = NavRoutes.PlayerList.path) {
+        composable(NavRoutes.PlayerList.path) {
             PlayerListScreen(hiltViewModel()) {
-                navController.navigate(NavRoutes.Details.build(it))
+                navController.navigate(NavRoutes.PlayerDetails.build(it))
             }
         }
-        composable(NavRoutes.Details.path) { backStackEntry ->
+        composable(NavRoutes.PlayerDetails.path) { backStackEntry ->
             backStackEntry.arguments?.getString(NavRoutes.DETAILS_ID_KEY)?.let {
-                PlayerDetailsScreen(detailViewModel(playerId = it.toInt()))
+                PlayerDetailsScreen(playerDetailViewModel(playerId = it.toInt()))
             }
         }
     }
