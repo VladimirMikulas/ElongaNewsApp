@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.MaterialTheme
@@ -19,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.vlamik.core.domain.models.PlayerDetails
+import com.vlamik.core.domain.models.Team
 import com.vlamik.nba.R
 import com.vlamik.nba.component.Toast
 import com.vlamik.nba.theme.Shapes
@@ -30,40 +29,37 @@ import com.vlamik.nba.utils.preview.FontScalePreview
 import com.vlamik.nba.utils.preview.ThemeModePreview
 
 @Composable
-fun PlayerDetailsScreen(
-    detailsViewModel: PlayerDetailsViewModel,
-    openTeamDetailsClicked: (Int) -> Unit
+fun TeamDetailsScreen(
+    detailsViewModel: TeamDetailsViewModel
 ) {
-    val playerDetailsUpdateState by detailsViewModel.updateState.collectAsState()
+    val teamDetailsUpdateState by detailsViewModel.updateState.collectAsState()
 
-    when (val state = playerDetailsUpdateState) {
-        PlayerDetailsViewModel.UiState.ErrorFromAPI -> Toast(R.string.api_error)
-        PlayerDetailsViewModel.UiState.LoadingFromAPI -> Unit
-        is PlayerDetailsViewModel.UiState.Success -> {
-            PlayerDetailsUi(
-                state = state,
-                openTeamDetailClicked = openTeamDetailsClicked
+    when (val state = teamDetailsUpdateState) {
+        TeamDetailsViewModel.UiState.ErrorFromAPI -> Toast(R.string.api_error)
+        TeamDetailsViewModel.UiState.LoadingFromAPI -> Unit
+        is TeamDetailsViewModel.UiState.Success -> {
+            TeamDetailsUi(
+                state = state
             )
         }
     }
 }
 
 @Composable
-private fun PlayerDetailsUi(
-    state: PlayerDetailsViewModel.UiState,
-    openTeamDetailClicked: (Int) -> Unit
+private fun TeamDetailsUi(
+    state: TeamDetailsViewModel.UiState
 ) =
     Column(
         modifier = Modifier
             .systemBarsPadding()
             .padding(16.dp)
     ) {
-        val playerDetails: PlayerDetails
-        (state as? PlayerDetailsViewModel.UiState.Success)?.let {
-            playerDetails = it.player
+        val teamDetails: Team
+        (state as? TeamDetailsViewModel.UiState.Success)?.let {
+            teamDetails = it.team
 
             Text(
-                text = playerDetails.firstName.plus(" ${playerDetails.lastName}"),
+                text = teamDetails.fullName,
                 style = MaterialTheme.typography.headlineLarge,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -85,29 +81,17 @@ private fun PlayerDetailsUi(
                             .fillMaxSize()
                     ) {
                         DetailItem(
-                            titleResId = R.string.player_detail_position,
-                            value = playerDetails.position
+                            titleResId = R.string.team_detail_city,
+                            value = teamDetails.city
                         )
                         DetailItem(
-                            titleResId = R.string.player_detail_height_feet,
-                            value = playerDetails.heightFeet.toString()
+                            titleResId = R.string.team_detail_conference,
+                            value = teamDetails.conference
                         )
                         DetailItem(
-                            titleResId = R.string.player_detail_height_inches,
-                            value = playerDetails.heightInches.toString()
+                            titleResId = R.string.team_detail_division,
+                            value = teamDetails.division
                         )
-                        DetailItem(
-                            titleResId = R.string.player_detail_weight_pounds,
-                            value = playerDetails.weightPounds.toString()
-                        )
-                        DetailItem(
-                            titleResId = R.string.player_detail_team,
-                            value = playerDetails.team
-                        )
-                        Button(onClick = { openTeamDetailClicked(playerDetails.teamId) }) {
-                            Text(text = stringResource(id = R.string.team_detail_button))
-
-                        }
                     }
                 }
             }
@@ -140,11 +124,10 @@ private fun DetailItem(titleResId: Int, value: String) {
 @Composable
 private fun ListScreenPreview() {
     TemplateTheme {
-        PlayerDetailsUi(
-            state = PlayerDetailsViewModel.UiState.Success(
-                PlayerDetails(237, "LeBron", "James", "F", 6, 3, 200, 10, "Lakers")
-            ),
-            openTeamDetailClicked = {}
+        TeamDetailsUi(
+            state = TeamDetailsViewModel.UiState.Success(
+                Team(14, "Los Angeles", "West", "Pacific", "Los Angeles Lakers", "Lakers")
+            )
         )
     }
 }

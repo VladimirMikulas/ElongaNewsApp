@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.vlamik.nba.features.details.PlayerDetailsScreen
+import com.vlamik.nba.features.details.TeamDetailsScreen
 import com.vlamik.nba.features.list.PlayerListScreen
 
 @Composable
@@ -24,6 +25,11 @@ fun NbaNavHost(
                 PlayerDetailsScreen(playerDetailViewModel(playerId = it.toInt())) { id ->
                     navController.navigate(NavRoutes.TeamDetails.build(id))
                 }
+            }
+        }
+        composable(NavRoutes.TeamDetails.path) { backStackEntry ->
+            backStackEntry.arguments?.getString(NavRoutes.DETAILS_ID_KEY)?.let {
+                TeamDetailsScreen(teamDetailViewModel(teamId = it.toInt()))
             }
         }
     }

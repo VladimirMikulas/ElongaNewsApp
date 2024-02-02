@@ -10,10 +10,17 @@
     <string name="player_team">Team: %s</string>
 
 
-    <!-- Details Screen -->
+    <!-- Player details Screen -->
     <string name="player_detail_position">Position:</string>
     <string name="player_detail_height_feet">Height feet:</string>
     <string name="player_detail_height_inches">Height inches:</string>
     <string name="player_detail_weight_pounds">Weight in pounds:</string>
     <string name="player_detail_team">Team:</string>
+    <string name="team_detail_button">Team Detail</string>
+
+    <!-- Team details Screen -->
+    <string name="team_detail_city">City:</string>
+    <string name="team_detail_conference">Conference:</string>
+    <string name="team_detail_division">Division:</string>
+
 </resources>
