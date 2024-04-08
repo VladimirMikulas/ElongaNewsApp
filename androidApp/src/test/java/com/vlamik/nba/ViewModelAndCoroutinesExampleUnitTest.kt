@@ -44,7 +44,7 @@ class ViewModelAndCoroutinesExampleUnitTest {
     @Test
     fun `Test Refresh`() = runTest(coroutinesTestRule.testDispatcher) {
         // Arrange
-        val result = Result.success(listOf(Player("1", "vlamik.com")))
+        val result = Result.success(listOf(Player(237, "LeBron", "James", "F", "Lakers")))
         coEvery { getPlayersMock.invoke() } returns result
 
         val vm = buildVM()

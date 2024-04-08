@@ -2,7 +2,6 @@ package com.vlamik.core.domain
 
 import com.vlamik.core.data.repositories.PlayerRepository
 import com.vlamik.core.domain.models.Player
-import com.vlamik.core.domain.models.toModel
 import com.vlamik.core.domain.models.toPlayerModel
 import javax.inject.Inject
 

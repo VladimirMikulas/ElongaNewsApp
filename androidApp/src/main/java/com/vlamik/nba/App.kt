@@ -2,9 +2,9 @@ package com.vlamik.nba
 
 import android.app.Application
 import android.os.StrictMode
-import dagger.hilt.android.HiltAndroidApp
 import com.vlamik.core.commons.Log.addLogger
 import com.vlamik.nba.utils.AndroidLogger
+import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class App : Application() {
@@ -20,7 +20,7 @@ class App : Application() {
                 StrictMode.ThreadPolicy.Builder()
                     .detectAll()
                     .penaltyLog()
-                    .penaltyDeath()
+//                    .penaltyDeath()
                     .build()
             )
             StrictMode.setVmPolicy(

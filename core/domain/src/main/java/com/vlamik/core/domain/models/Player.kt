@@ -1,8 +1,6 @@
 package com.vlamik.core.domain.models
 
 import com.vlamik.core.data.models.PlayerDetailsDto
-import com.vlamik.core.data.models.PlayerDto
-import com.vlamik.core.data.models.TeamDetailsDto
 
 
 data class Player(
