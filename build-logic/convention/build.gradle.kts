@@ -2,7 +2,7 @@ plugins {
     `kotlin-dsl`
 }
 
-group = "com.vlamik.nba.buildlogic"
+group = "com.vlamik.news.buildlogic"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17

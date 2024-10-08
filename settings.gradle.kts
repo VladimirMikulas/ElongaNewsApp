@@ -15,7 +15,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "NbaApp"
+rootProject.name = "ElongaNewsApp"
 include(
     ":androidApp",
 //    ":lint-checks",

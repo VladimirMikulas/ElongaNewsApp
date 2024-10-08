@@ -2,7 +2,7 @@ package com.vlamik.core.commons
 
 import com.vlamik.core.commons.Log.addLogger
 import com.vlamik.core.commons.Log.clearLoggers
-import junit.framework.Assert.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class LoggerTest {

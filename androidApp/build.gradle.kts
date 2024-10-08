@@ -10,7 +10,7 @@ android {
     compileSdk = libs.versions.sdk.compile.get().toInt()
 
     defaultConfig {
-        applicationId = "com.vlamik.nba"
+        applicationId = "com.vlamik.news"
 
         minSdk = libs.versions.sdk.min.get().toInt()
         targetSdk = libs.versions.sdk.target.get().toInt()
@@ -18,7 +18,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "com.vlamik.nba.TestRunner"
+        testInstrumentationRunner = "com.vlamik.news.TestRunner"
         vectorDrawables { useSupportLibrary = true }
     }
 
@@ -66,7 +66,7 @@ android {
             isIncludeAndroidResources = true
         }
     }
-    namespace = "com.vlamik.nba"
+    namespace = "com.vlamik.news"
 }
 
 dependencies {
