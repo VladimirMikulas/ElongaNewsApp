@@ -11,15 +11,14 @@ import dagger.hilt.android.EntryPointAccessors
 interface BaseViewModelFactoryProvider {
 //    fun getNewsDetailsViewModelFactory(): NewsDetailsViewModel.Factory
 }
-/*
-@Composable
-fun playerDetailViewModel(playerId: Int): NewsDetailsViewModel = viewModel(
-    factory = NewsDetailsViewModel.provideFactory(
-        getViewModelFactoryProvider().getNewsDetailsViewModelFactory(),
-        playerId
-    )
-)*/
 
+/*@Composable
+fun loginViewModel(): NewsDetailsViewModel = viewModel(
+    factory = NewsDetailsViewModel.provideFactory(
+        getViewModelFactoryProvider().getNewsDetailsViewModelFactory()
+    )
+)
+*/
 @Composable
 private fun getViewModelFactoryProvider() = EntryPointAccessors.fromActivity(
     LocalContext.current as Activity,

@@ -7,6 +7,10 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.vlamik.core.commons.ApiUrl
 import com.vlamik.core.commons.endpoints.OpenLibraryEndpoint
+import com.vlamik.core.data.repositories.AppRepository
+import com.vlamik.core.data.repositories.AppRepositoryImpl
+import com.vlamik.core.data.repositories.LoginRepository
+import com.vlamik.core.data.repositories.LoginRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,6 +42,22 @@ open class DataModule {
     @Singleton
     fun dataStore(@ApplicationContext context: Context): DataStore<Preferences> =
         internalDataStore(context)
+
+    @Provides
+    @Singleton
+    fun providesAppRepository(
+        repo: AppRepositoryImpl
+    ): AppRepository {
+        return repo
+    }
+
+    @Provides
+    @Singleton
+    fun providesLoginRepository(
+        repo: LoginRepositoryImpl
+    ): LoginRepository {
+        return repo
+    }
 
     companion object {
         private const val DATA_STORE = "store"

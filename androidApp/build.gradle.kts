@@ -81,6 +81,7 @@ dependencies {
     // Hilt
     implementation(libs.hilt.navigation.compose)
     implementation(libs.hilt.android)
+    implementation(project(":core:data"))
     kapt(libs.hilt.compiler)
 
     // Ktor Engine
