@@ -17,7 +17,7 @@ import com.vlamik.news.MainActivityViewModel.UiState
 import com.vlamik.news.MainActivityViewModel.UiState.Loading
 import com.vlamik.news.MainActivityViewModel.UiState.Success
 import com.vlamik.news.navigation.BaseViewModelFactoryProvider
-import com.vlamik.news.navigation.NbaNavHost
+import com.vlamik.news.navigation.NewsNavHost
 import com.vlamik.news.theme.TemplateTheme
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
@@ -76,7 +76,7 @@ class MainActivity : ComponentActivity() {
                 onDispose {}
             }
 
-            TemplateTheme { NbaNavHost() }
+            TemplateTheme { NewsNavHost() }
         }
     }
 }

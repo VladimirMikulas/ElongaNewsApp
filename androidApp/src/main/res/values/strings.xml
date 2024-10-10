@@ -4,8 +4,16 @@
     <!-- Generic -->
     <string name="api_error">Error from API.</string>
 
+    <!-- Login Screen -->
+    <string name="incorrect_password">Entered email or password is incorrect</string>
+    <string name="login_title">Login</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="login_button">Login</string>
+    <string name="skip_button">Skip</string>
+
     <!-- List Screen -->
-    <string name="news_list">NBA player list</string>
+    <string name="news_list">News list</string>
 
 
     <!-- News details Screen -->
