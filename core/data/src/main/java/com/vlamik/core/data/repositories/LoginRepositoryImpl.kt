@@ -1,7 +1,10 @@
 package com.vlamik.core.data.repositories
 
+import javax.inject.Inject
 
-class LoginRepositoryImpl : LoginRepository {
+
+class LoginRepositoryImpl @Inject constructor(
+) : LoginRepository {
     companion object {
         private const val LOGIN_EMAIL = "elonga@elonga.com"
         private const val LOGIN_PASSWORD = "ElongaTheBest"

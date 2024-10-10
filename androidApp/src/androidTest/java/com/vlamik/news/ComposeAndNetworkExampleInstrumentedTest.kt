@@ -12,7 +12,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.vlamik.core.commons.endpoints.OpenLibraryEndpoint
 import com.vlamik.datatest.DataTestResources
 import com.vlamik.datatest.MockOpenLibraryApi
-import com.vlamik.nba.R
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import io.ktor.http.HttpStatusCode
