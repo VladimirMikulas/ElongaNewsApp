@@ -4,4 +4,5 @@ import com.vlamik.core.data.models.NewsDto
 
 interface NewsRepository {
     suspend fun getNews(): Result<NewsDto>
+    suspend fun getArticle(id: String): Result<NewsDto>
 }

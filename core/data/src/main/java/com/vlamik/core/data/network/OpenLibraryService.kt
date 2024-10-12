@@ -35,4 +35,18 @@ class OpenLibraryService
             Result.failure(e)
         }
     }
+
+    suspend fun getArticle(id: String): Result<NewsDto> = withContext(coroutineContext) {
+        return@withContext try {
+            Result.success(
+                httpClient().get {
+                    header(API_KEY_HEADER, API_KEY_VALUE)
+                    url(path = OpenLibraryEndpoint.article(id))
+                }.body()
+            )
+        } catch (e: Exception) {
+            loge("Failed to get Article", e)
+            Result.failure(e)
+        }
+    }
 }
