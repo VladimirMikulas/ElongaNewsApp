@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -115,6 +116,11 @@ private fun NewsListComposable(
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 private fun ArticleSourceImage(url: String) {
+    Column(
+        modifier = Modifier.fillMaxHeight(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
     GlideImage(
         model = url,
         loading = placeholder(R.drawable.news_logo),
@@ -125,6 +131,7 @@ private fun ArticleSourceImage(url: String) {
             .fillMaxWidth()
             .wrapContentHeight(align = Alignment.CenterVertically)
     )
+    }
 }
 
 @Composable
@@ -137,7 +144,9 @@ private fun NewsListItemContent(newsListItem: NewsListItemModel) {
     ) {
         Text(
             text = newsListItem.title,
-            fontSize = 18.sp
+            fontSize = 18.sp,
+            maxLines = 3,
+            minLines = 3
         )
         Text(
             text = newsListItem.publicationDate,
@@ -161,8 +170,8 @@ private fun NewsListItemCard(newsListItem: NewsListItemModel, onItemCardClicked:
                 .fillMaxSize()
         ) {
             ArticleSourceImage(newsListItem.sourceIcon)
-            NewsListItemContent(newsListItem = newsListItem)
-        }
+            NewsListItemContent(newsListItem)
+    }
     }
 }
 
