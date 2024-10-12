@@ -11,6 +11,8 @@ import com.vlamik.core.data.repositories.AppRepository
 import com.vlamik.core.data.repositories.AppRepositoryImpl
 import com.vlamik.core.data.repositories.LoginRepository
 import com.vlamik.core.data.repositories.LoginRepositoryImpl
+import com.vlamik.core.data.repositories.NewsRepository
+import com.vlamik.core.data.repositories.NewsRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -56,6 +58,14 @@ open class DataModule {
     fun providesLoginRepository(
         repo: LoginRepositoryImpl
     ): LoginRepository {
+        return repo
+    }
+
+    @Provides
+    @Singleton
+    fun providesNewsRepository(
+        repo: NewsRepositoryImpl
+    ): NewsRepository {
         return repo
     }
 

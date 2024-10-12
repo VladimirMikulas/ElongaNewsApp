@@ -47,7 +47,7 @@ class ComposeAndNetworkExampleInstrumentedTest {
     @Test
     fun listNewsSuccess() {
         MockOpenLibraryApi.giveResponse(
-            request = OpenLibraryEndpoint.news(),
+            request = OpenLibraryEndpoint.news,
             response = MockOpenLibraryApi.ResponseValue(
                 statusCode = HttpStatusCode.OK,
                 content = DataTestResources.playerListJson()
@@ -62,7 +62,7 @@ class ComposeAndNetworkExampleInstrumentedTest {
              * useUnmergedTree should be true.
              */
             onNodeWithText(
-                instrumentationContext.getString(R.string.news_list),
+                instrumentationContext.getString(R.string.latest_news),
                 useUnmergedTree = true
             )
                 .assertIsDisplayed()
@@ -75,7 +75,7 @@ class ComposeAndNetworkExampleInstrumentedTest {
     @Test
     fun listNewsError() {
         MockOpenLibraryApi.giveResponse(
-            request = OpenLibraryEndpoint.news(1),
+            request = OpenLibraryEndpoint.news,
             response = MockOpenLibraryApi.ResponseValue(
                 statusCode = HttpStatusCode.BadRequest
             )
@@ -83,7 +83,7 @@ class ComposeAndNetworkExampleInstrumentedTest {
 
         with(composeRule) {
             waitForIdle()
-            onNodeWithText(instrumentationContext.getString(R.string.news_list))
+            onNodeWithText(instrumentationContext.getString(R.string.latest_news))
                 .assertDoesNotExist()
         }
     }

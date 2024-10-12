@@ -22,13 +22,11 @@ class OpenLibraryService
         private const val API_KEY_VALUE = "YOUR_API_KEY"
     }
 
-    suspend fun getNews(isAuthenticated: Boolean): Result<NewsDto> = withContext(coroutineContext) {
+    suspend fun getNews(): Result<NewsDto> = withContext(coroutineContext) {
         return@withContext try {
             Result.success(
                 httpClient().get {
-                    if (isAuthenticated) {
-                        header(API_KEY_HEADER, API_KEY_VALUE)
-                    }
+                    header(API_KEY_HEADER, API_KEY_VALUE)
                     url(path = OpenLibraryEndpoint.news)
                 }.body()
             )
