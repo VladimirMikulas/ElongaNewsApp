@@ -13,7 +13,9 @@
     <string name="skip_button">Skip</string>
 
     <!-- List Screen -->
-    <string name="news_list">News list</string>
+    <string name="latest_news">Latest News</string>
+    <string name="article_source_image">Article source image</string>
+    <string name="not_authenticated_error">You are not authenticated. To proceed, first login.</string>
 
 
     <!-- News details Screen -->

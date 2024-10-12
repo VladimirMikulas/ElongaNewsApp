@@ -2,9 +2,9 @@ package com.vlamik.core.commons.endpoints
 
 object OpenLibraryEndpoint {
     val baseUrl: String
-        get() = "baseUrl"
+        get() = "newsdata.io/api/1"
 
-    fun news(page: Int = 1, perPage: Int = 35) =
-        "/news.json?page=$page&per_page=$perPage"
+    val news: String
+        get() = "latest?language=en"
 
 }

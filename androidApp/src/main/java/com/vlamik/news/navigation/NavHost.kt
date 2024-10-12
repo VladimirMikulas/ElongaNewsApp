@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.vlamik.news.features.list.NewsListScreen
 import com.vlamik.news.features.login.LoginScreen
 
 @Composable
@@ -21,11 +22,13 @@ fun NewsNavHost(
             }
         }
 
-        /*composable(NavRoutes.NewsList.path) { backStackEntry ->
+        composable(NavRoutes.NewsList.path) { backStackEntry ->
             backStackEntry.arguments?.getString(NavRoutes.IS_AUTHENTICATED_KEY)?.let {
-                NewsListScreen(isAuthenticated = it.toBoolean())
+                NewsListScreen(hiltViewModel(), isAuthenticated = it.toBoolean(), { articleId ->
+                    navController.navigate(NavRoutes.NewsDetails.build(articleId))
+                }) { navController.popBackStack() }
             }
-        }
+        }/*
         composable(NavRoutes.NewsDetails.path) { backStackEntry ->
             backStackEntry.arguments?.getString(NavRoutes.DETAILS_ID_KEY)?.let {
                 NewsDetailsScreen(newsDetailsViewModel(newsId = it.toInt()))
