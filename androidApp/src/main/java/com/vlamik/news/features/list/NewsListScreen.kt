@@ -102,9 +102,7 @@ private fun NewsListComposable(
 
                 LazyColumn {
                     itemsIndexed(news) { _, newsListItem ->
-
                         NewsListItemCard(newsListItem = newsListItem, onDetailsClicked)
-
                         Spacer(modifier = Modifier.height(8.dp))
                     }
 
@@ -133,7 +131,8 @@ private fun ArticleSourceImage(url: String) {
 private fun NewsListItemContent(newsListItem: NewsListItemModel) {
     Column(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .padding(8.dp),
         verticalArrangement = Arrangement.Center
     ) {
         Text(

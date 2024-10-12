@@ -26,7 +26,11 @@ fun NewsNavHost(
             backStackEntry.arguments?.getString(NavRoutes.IS_AUTHENTICATED_KEY)?.let {
                 NewsListScreen(hiltViewModel(), isAuthenticated = it.toBoolean(), { articleId ->
                     navController.navigate(NavRoutes.NewsDetails.build(articleId))
-                }) { navController.popBackStack() }
+                }) {
+                    if (navController.previousBackStackEntry != null) {
+                        navController.popBackStack()
+                    }
+                }
             }
         }/*
         composable(NavRoutes.NewsDetails.path) { backStackEntry ->

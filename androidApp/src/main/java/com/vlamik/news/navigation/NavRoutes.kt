@@ -10,7 +10,7 @@ sealed class NavRoutes(internal open val path: String) {
 
     object NewsDetails : NavRoutes("news_details/{$DETAILS_ID_KEY}") {
         fun build(id: String): String =
-            path.replace("{$DETAILS_ID_KEY}", id.toString())
+            path.replace("{$DETAILS_ID_KEY}", id)
     }
 
     companion object {
