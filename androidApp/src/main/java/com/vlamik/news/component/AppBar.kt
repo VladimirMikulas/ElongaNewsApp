@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 
 @Composable
-fun AppBar(title: String, imageVector: ImageVector, iconClickAction: () -> Unit) {
+fun AppBar(title: String, imageVector: ImageVector, backIconClickAction: () -> Unit) {
     TopAppBar(
         title = {
             Text(
@@ -16,7 +16,7 @@ fun AppBar(title: String, imageVector: ImageVector, iconClickAction: () -> Unit)
             )
         },
         navigationIcon = {
-            IconButton(onClick = { iconClickAction.invoke() }) {
+            IconButton(onClick = { backIconClickAction() }) {
                 Icon(imageVector = imageVector, contentDescription = "")
             }
         }
