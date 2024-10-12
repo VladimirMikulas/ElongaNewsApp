@@ -11,4 +11,7 @@ class NewsRepositoryImpl
     override suspend fun getNews(): Result<NewsDto> =
         openLibraryService.getNews()
 
+    override suspend fun getArticle(id: String): Result<NewsDto> =
+        openLibraryService.getArticle(id)
+
 }

@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.vlamik.news.features.details.ArticleDetailScreen
 import com.vlamik.news.features.list.NewsListScreen
 import com.vlamik.news.features.login.LoginScreen
 
@@ -32,11 +33,16 @@ fun NewsNavHost(
                     }
                 }
             }
-        }/*
+        }
+
         composable(NavRoutes.NewsDetails.path) { backStackEntry ->
             backStackEntry.arguments?.getString(NavRoutes.DETAILS_ID_KEY)?.let {
-                NewsDetailsScreen(newsDetailsViewModel(newsId = it.toInt()))
+                ArticleDetailScreen(articleDetailViewModel(articleId = it)) {
+                    if (navController.previousBackStackEntry != null) {
+                        navController.popBackStack()
+                    }
+                }
             }
-        }*/
+        }
     }
 }

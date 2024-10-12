@@ -13,6 +13,6 @@ data class NewsListItemModel(
 fun ArticleDto.toNewsItemModel(): NewsListItemModel = NewsListItemModel(
     id = articleID,
     title = title.orEmpty(),
-    publicationDate = pubDate.orEmpty().plus(" ${pubDateTZ.orEmpty()}"),
+    publicationDate = "${pubDate.orEmpty()} ${pubDateTZ.orEmpty()}",
     sourceIcon = sourceIcon.orEmpty(),
 )

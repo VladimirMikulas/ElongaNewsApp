@@ -7,4 +7,6 @@ object OpenLibraryEndpoint {
     val news: String
         get() = "latest?language=en"
 
+    fun article(id: String) =
+        "latest?id=$id"
 }
