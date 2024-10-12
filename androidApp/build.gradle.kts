@@ -4,6 +4,8 @@ plugins {
     kotlin("kapt")
     id(libs.plugins.hilt.android.get().pluginId)
     id("template.coroutines")
+    alias(libs.plugins.compose.compiler)
+
 }
 
 android {
@@ -51,9 +53,7 @@ android {
         jvmToolchain(17)
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get().toString()
-    }
+
     packagingOptions {
         resources {
             excludes.add("/META-INF/{AL2.0,LGPL2.1}")
@@ -81,6 +81,7 @@ dependencies {
     // Hilt
     implementation(libs.hilt.navigation.compose)
     implementation(libs.hilt.android)
+    implementation(project(":core:data"))
     kapt(libs.hilt.compiler)
 
     // Ktor Engine

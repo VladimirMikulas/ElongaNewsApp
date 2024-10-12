@@ -5,20 +5,21 @@ package com.vlamik.news.navigation
 import android.app.Activity
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.vlamik.news.MainActivity.ViewModelFactoryProvider
+import com.vlamik.news.features.details.ArticleDetailViewModel
 import dagger.hilt.android.EntryPointAccessors
 
 interface BaseViewModelFactoryProvider {
-//    fun getNewsDetailsViewModelFactory(): NewsDetailsViewModel.Factory
+    fun getArticleDetailViewModelFactory(): ArticleDetailViewModel.Factory
 }
-/*
+
 @Composable
-fun playerDetailViewModel(playerId: Int): NewsDetailsViewModel = viewModel(
-    factory = NewsDetailsViewModel.provideFactory(
-        getViewModelFactoryProvider().getNewsDetailsViewModelFactory(),
-        playerId
+fun articleDetailViewModel(articleId: String): ArticleDetailViewModel = viewModel(
+    factory = ArticleDetailViewModel.provideFactory(
+        getViewModelFactoryProvider().getArticleDetailViewModelFactory(), articleId
     )
-)*/
+)
 
 @Composable
 private fun getViewModelFactoryProvider() = EntryPointAccessors.fromActivity(

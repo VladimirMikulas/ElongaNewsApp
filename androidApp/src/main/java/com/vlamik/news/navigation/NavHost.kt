@@ -6,21 +6,43 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.vlamik.news.features.details.ArticleDetailScreen
+import com.vlamik.news.features.list.NewsListScreen
+import com.vlamik.news.features.login.LoginScreen
 
 @Composable
-fun NbaNavHost(
+fun NewsNavHost(
     navController: NavHostController = rememberNavController(),
 ) {
-    /*NavHost(navController = navController, startDestination = NavRoutes.NewsList.path) {
-        composable(NavRoutes.NewsList.path) {
-            NewsListScreen(hiltViewModel()) {
-                navController.navigate(NavRoutes.NewsDetails.build(it))
+    NavHost(navController = navController, startDestination = NavRoutes.Login.path) {
+        composable(NavRoutes.Login.path) {
+            LoginScreen(
+                hiltViewModel()
+            ) { isAuthenticated ->
+                navController.navigate(NavRoutes.NewsList.build(isAuthenticated))
             }
         }
+
+        composable(NavRoutes.NewsList.path) { backStackEntry ->
+            backStackEntry.arguments?.getString(NavRoutes.IS_AUTHENTICATED_KEY)?.let {
+                NewsListScreen(hiltViewModel(), isAuthenticated = it.toBoolean(), { articleId ->
+                    navController.navigate(NavRoutes.NewsDetails.build(articleId))
+                }) {
+                    if (navController.previousBackStackEntry != null) {
+                        navController.popBackStack()
+                    }
+                }
+            }
+        }
+
         composable(NavRoutes.NewsDetails.path) { backStackEntry ->
             backStackEntry.arguments?.getString(NavRoutes.DETAILS_ID_KEY)?.let {
-                NewsDetailsScreen(newsDetailsViewModel(newsId = it.toInt()))
+                ArticleDetailScreen(articleDetailViewModel(articleId = it)) {
+                    if (navController.previousBackStackEntry != null) {
+                        navController.popBackStack()
+                    }
+                }
             }
         }
-    }*/
+    }
 }

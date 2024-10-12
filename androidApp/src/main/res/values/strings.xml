@@ -4,10 +4,24 @@
     <!-- Generic -->
     <string name="api_error">Error from API.</string>
 
-    <!-- List Screen -->
-    <string name="news_list">NBA player list</string>
+    <!-- Login Screen -->
+    <string name="incorrect_password">Entered email or password is incorrect</string>
+    <string name="login_title">Login</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="login_button">Login</string>
+    <string name="skip_button">Skip</string>
 
+    <!-- List Screen -->
+    <string name="latest_news">Latest News</string>
+    <string name="article_source_image">Article source image</string>
+    <string name="not_authenticated_error">You are not authenticated. To proceed, first login.</string>
 
     <!-- News details Screen -->
-
+    <string name="article_detail">Article Detail</string>
+    <string name="creators">Creators:</string>
+    <string name="publication_date">Publication date:</string>
+    <string name="article_image">Article image</string>
+    <string name="share">Share</string>
+    <string name="share_via">Share via</string>
 </resources>
