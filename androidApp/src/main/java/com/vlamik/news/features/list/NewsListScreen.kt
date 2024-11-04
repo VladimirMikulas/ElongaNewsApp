@@ -58,15 +58,18 @@ fun NewsListScreen(
     listViewModel: NewsListViewModel,
     isAuthenticated: Boolean,
     openDetailsClicked: (String) -> Unit,
-    onBackClicked: () -> Unit
+    onBackClicked: () -> Unit,
+    openLoginClicked: () -> Unit
 ) {
     listViewModel.checkAuthentication(isAuthenticated)
     val newsListUpdateState by listViewModel.state.collectAsState()
     when (val state = newsListUpdateState) {
         is UpdateSuccess, LoadingFromAPI, ErrorFromAPI, NotAuthenticatedError -> NewsListComposable(
             state = state,
+            isAuthenticated = isAuthenticated,
             onDetailsClicked = openDetailsClicked,
-            onBackClicked = onBackClicked
+            onBackClicked = onBackClicked,
+            onLogoutClicked = openLoginClicked
         )
     }
 }
@@ -74,14 +77,19 @@ fun NewsListScreen(
 @Composable
 private fun NewsListComposable(
     state: ListScreenUiState,
+    isAuthenticated: Boolean,
     onDetailsClicked: (String) -> Unit,
     onBackClicked: () -> Unit,
+    onLogoutClicked: () -> Unit,
 ) =
     Scaffold(topBar = {
         AppBar(
             title = stringResource(id = R.string.latest_news),
-            imageVector = Icons.AutoMirrored.Filled.ArrowBack
-        ) { onBackClicked() }
+            navigationIcon = Icons.AutoMirrored.Filled.ArrowBack,
+            backIconClickAction = { onBackClicked() },
+            addLogoutButton = isAuthenticated,
+            logoutClickAction = { onLogoutClicked() }
+        )
     }) {
         Surface(
             modifier = Modifier
@@ -121,16 +129,16 @@ private fun ArticleSourceImage(url: String) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-    GlideImage(
-        model = url,
-        loading = placeholder(R.drawable.news_logo),
-        contentDescription = stringResource(id = R.string.article_source_image),
-        modifier = Modifier
-            .size(80.dp)
-            .padding(10.dp)
-            .fillMaxWidth()
-            .wrapContentHeight(align = Alignment.CenterVertically)
-    )
+        GlideImage(
+            model = url,
+            loading = placeholder(R.drawable.news_logo),
+            contentDescription = stringResource(id = R.string.article_source_image),
+            modifier = Modifier
+                .size(80.dp)
+                .padding(10.dp)
+                .fillMaxWidth()
+                .wrapContentHeight(align = Alignment.CenterVertically)
+        )
     }
 }
 
@@ -171,7 +179,7 @@ private fun NewsListItemCard(newsListItem: NewsListItemModel, onItemCardClicked:
         ) {
             ArticleSourceImage(newsListItem.sourceIcon)
             NewsListItemContent(newsListItem)
-    }
+        }
     }
 }
 
@@ -212,7 +220,9 @@ private fun NewsListScreenPreview() {
                 )
             ),
             onDetailsClicked = {},
-            onBackClicked = {})
+            onBackClicked = {},
+            isAuthenticated = true,
+            onLogoutClicked = {})
 
     }
 }

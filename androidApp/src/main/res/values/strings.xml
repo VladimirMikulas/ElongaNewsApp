@@ -16,6 +16,7 @@
     <string name="latest_news">Latest News</string>
     <string name="article_source_image">Article source image</string>
     <string name="not_authenticated_error">You are not authenticated. To proceed, first login.</string>
+    <string name="Logout">Logout</string>
 
     <!-- News details Screen -->
     <string name="article_detail">Article Detail</string>

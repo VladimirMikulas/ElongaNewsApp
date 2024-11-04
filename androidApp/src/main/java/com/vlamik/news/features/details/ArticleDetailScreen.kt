@@ -73,12 +73,9 @@ private fun ArticleDetailUi(
         Scaffold(topBar = {
             AppBar(
                 title = stringResource(id = R.string.article_detail),
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                shareData = articleDetail.link
-            ) {
-                onBackClicked()
-            }
-
+                navigationIcon = Icons.AutoMirrored.Filled.ArrowBack,
+                shareData = articleDetail.link,
+                backIconClickAction = { onBackClicked() })
         }) { contentPadding ->
             Surface(
                 modifier = Modifier

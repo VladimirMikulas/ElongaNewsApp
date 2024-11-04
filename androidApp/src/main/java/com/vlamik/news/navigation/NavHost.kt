@@ -2,6 +2,7 @@ package com.vlamik.news.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -25,13 +26,22 @@ fun NewsNavHost(
 
         composable(NavRoutes.NewsList.path) { backStackEntry ->
             backStackEntry.arguments?.getString(NavRoutes.IS_AUTHENTICATED_KEY)?.let {
-                NewsListScreen(hiltViewModel(), isAuthenticated = it.toBoolean(), { articleId ->
-                    navController.navigate(NavRoutes.NewsDetails.build(articleId))
-                }) {
-                    if (navController.previousBackStackEntry != null) {
-                        navController.popBackStack()
-                    }
-                }
+                NewsListScreen(
+                    hiltViewModel(),
+                    isAuthenticated = it.toBoolean(),
+                    openDetailsClicked = { articleId ->
+                        navController.navigate(NavRoutes.NewsDetails.build(articleId))
+                    },
+                    onBackClicked = {
+                        if (navController.previousBackStackEntry != null) {
+                            navController.popBackStack()
+                        }
+                    },
+                    openLoginClicked = {
+                        if (navController.previousBackStackEntry != null) {
+                            navController.navigateToLoginAndClearStack()
+                        }
+                    })
             }
         }
 
@@ -43,6 +53,14 @@ fun NewsNavHost(
                     }
                 }
             }
+        }
+    }
+}
+
+fun NavController.navigateToLoginAndClearStack() {
+    this.navigate(NavRoutes.Login.path) {
+        popUpTo(this@navigateToLoginAndClearStack.graph.startDestinationId) {
+            inclusive = true
         }
     }
 }
