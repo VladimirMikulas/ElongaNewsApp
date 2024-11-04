@@ -16,6 +16,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Scaffold
@@ -29,7 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -69,7 +71,8 @@ fun NewsListScreen(
             isAuthenticated = isAuthenticated,
             onDetailsClicked = openDetailsClicked,
             onBackClicked = onBackClicked,
-            onLogoutClicked = openLoginClicked
+            onLogoutClicked = openLoginClicked,
+            onLoginClicked = openLoginClicked,
         )
     }
 }
@@ -81,6 +84,7 @@ private fun NewsListComposable(
     onDetailsClicked: (String) -> Unit,
     onBackClicked: () -> Unit,
     onLogoutClicked: () -> Unit,
+    onLoginClicked: () -> Unit,
 ) =
     Scaffold(topBar = {
         AppBar(
@@ -97,7 +101,7 @@ private fun NewsListComposable(
                 .padding(it)
         ) {
             (state as? NotAuthenticatedError)?.let {
-                ShowNotAuthenticatedError()
+                ShowNotAuthenticatedError(onLoginClicked)
             }
             (state as? ErrorFromAPI)?.let {
                 Toast(R.string.api_error)
@@ -184,18 +188,28 @@ private fun NewsListItemCard(newsListItem: NewsListItemModel, onItemCardClicked:
 }
 
 @Composable
-private fun ShowNotAuthenticatedError() {
+private fun ShowNotAuthenticatedError(
+    onLoginClicked: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(10.dp),
-        verticalArrangement = Arrangement.Top
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = stringResource(id = R.string.not_authenticated_error),
             fontSize = 24.sp,
-            color = Color.Red
+            color = Red
         )
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(
+            onClick = { onLoginClicked() },
+            colors = ButtonDefaults.buttonColors(containerColor = Red),
+        ) {
+            Text(text = stringResource(id = R.string.login_button), fontSize = 24.sp)
+        }
 
     }
 }
@@ -222,7 +236,7 @@ private fun NewsListScreenPreview() {
             onDetailsClicked = {},
             onBackClicked = {},
             isAuthenticated = true,
-            onLogoutClicked = {})
-
+            onLogoutClicked = {},
+            onLoginClicked = {})
     }
 }
