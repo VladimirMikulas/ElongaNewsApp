@@ -17,6 +17,7 @@
     <string name="article_source_image">Article source image</string>
     <string name="not_authenticated_error">You will see list of latest news on this screen. Please login first to access the app</string>
     <string name="Logout">Logout</string>
+    <string name="no_news_available">No latest news are available</string>
 
     <!-- News details Screen -->
     <string name="article_detail">Article Detail</string>

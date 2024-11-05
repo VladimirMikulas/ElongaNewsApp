@@ -26,9 +26,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.Red
@@ -65,16 +62,15 @@ fun NewsListScreen(
 ) {
     listViewModel.checkAuthentication(isAuthenticated)
     val newsListUpdateState by listViewModel.state.collectAsState()
-    when (val state = newsListUpdateState) {
-        is UpdateSuccess, LoadingFromAPI, ErrorFromAPI, NotAuthenticatedError -> NewsListComposable(
-            state = state,
-            isAuthenticated = isAuthenticated,
-            onDetailsClicked = openDetailsClicked,
-            onBackClicked = onBackClicked,
-            onLogoutClicked = openLoginClicked,
-            onLoginClicked = openLoginClicked,
-        )
-    }
+
+    NewsListComposable(
+        state = newsListUpdateState,
+        isAuthenticated = isAuthenticated,
+        onDetailsClicked = openDetailsClicked,
+        onBackClicked = onBackClicked,
+        onLogoutClicked = openLoginClicked,
+        onLoginClicked = openLoginClicked,
+    )
 }
 
 @Composable
@@ -85,44 +81,47 @@ private fun NewsListComposable(
     onBackClicked: () -> Unit,
     onLogoutClicked: () -> Unit,
     onLoginClicked: () -> Unit,
-) =
+) {
     Scaffold(topBar = {
         AppBar(
             title = stringResource(id = R.string.latest_news),
             navigationIcon = Icons.AutoMirrored.Filled.ArrowBack,
-            backIconClickAction = { onBackClicked() },
+            backIconClickAction = onBackClicked,
             addLogoutButton = isAuthenticated,
-            logoutClickAction = { onLogoutClicked() }
+            logoutClickAction = onLogoutClicked
         )
-    }) {
+    }) { paddingValues ->
         Surface(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it)
+                .padding(paddingValues)
         ) {
-            (state as? NotAuthenticatedError)?.let {
-                ShowNotAuthenticatedError(onLoginClicked)
-            }
-            (state as? ErrorFromAPI)?.let {
-                Toast(R.string.api_error)
-            }
-            (state as? LoadingFromAPI)?.let {
-                LoadingIndicator()
-            }
-            var news by remember { mutableStateOf(emptyList<NewsListItemModel>()) }
-            (state as? UpdateSuccess)?.let {
-                news = it.news.newsItems
-
-                LazyColumn {
-                    itemsIndexed(news) { _, newsListItem ->
-                        NewsListItemCard(newsListItem = newsListItem, onDetailsClicked)
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-
-                }
+            when (state) {
+                NotAuthenticatedError -> ShowNotAuthenticatedError(onLoginClicked)
+                ErrorFromAPI -> Toast(R.string.api_error)
+                LoadingFromAPI -> LoadingIndicator()
+                is UpdateSuccess -> NewsListContent(news = state.news.newsItems, onDetailsClicked)
             }
         }
     }
+}
+
+@Composable
+private fun NewsListContent(news: List<NewsListItemModel>, onDetailsClicked: (String) -> Unit) {
+    if (news.isEmpty()) {
+        Text(
+            text = stringResource(id = R.string.no_news_available),
+            modifier = Modifier.padding(16.dp)
+        )
+    } else {
+        LazyColumn {
+            itemsIndexed(news) { _, newsListItem ->
+                NewsListItemCard(newsListItem = newsListItem, onDetailsClicked)
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+        }
+    }
+}
 
 
 @OptIn(ExperimentalGlideComposeApi::class)

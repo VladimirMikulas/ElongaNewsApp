@@ -33,14 +33,11 @@ fun NewsNavHost(
                         navController.navigate(NavRoutes.NewsDetails.build(articleId))
                     },
                     onBackClicked = {
-                        if (navController.previousBackStackEntry != null) {
-                            navController.popBackStack()
-                        }
+                        navController.popBackStack()
+
                     },
                     openLoginClicked = {
-                        if (navController.previousBackStackEntry != null) {
-                            navController.navigateToLoginAndClearStack()
-                        }
+                        navController.navigateToLoginAndClearStack()
                     })
             }
         }
@@ -48,9 +45,7 @@ fun NewsNavHost(
         composable(NavRoutes.NewsDetails.path) { backStackEntry ->
             backStackEntry.arguments?.getString(NavRoutes.DETAILS_ID_KEY)?.let {
                 ArticleDetailScreen(articleDetailViewModel(articleId = it)) {
-                    if (navController.previousBackStackEntry != null) {
-                        navController.popBackStack()
-                    }
+                    navController.popBackStack()
                 }
             }
         }

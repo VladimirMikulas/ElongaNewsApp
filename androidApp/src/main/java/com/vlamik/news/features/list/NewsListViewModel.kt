@@ -23,11 +23,12 @@ class NewsListViewModel @Inject constructor(
     private val _state = MutableStateFlow<ListScreenUiState>(LoadingFromAPI)
     val state = _state.asStateFlow()
 
-
     fun checkAuthentication(isAuthenticated: Boolean) {
         viewModelScope.launch {
             if (isAuthenticated) {
-                loadNews()
+                if (_state.value !is UpdateSuccess) {
+                    loadNews()
+                }
             } else {
                 _state.value = NotAuthenticatedError
             }
