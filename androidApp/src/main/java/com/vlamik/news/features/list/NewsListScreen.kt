@@ -16,6 +16,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Scaffold
@@ -24,12 +26,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Red
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -58,59 +57,71 @@ fun NewsListScreen(
     listViewModel: NewsListViewModel,
     isAuthenticated: Boolean,
     openDetailsClicked: (String) -> Unit,
-    onBackClicked: () -> Unit
+    onBackClicked: () -> Unit,
+    openLoginClicked: () -> Unit
 ) {
     listViewModel.checkAuthentication(isAuthenticated)
     val newsListUpdateState by listViewModel.state.collectAsState()
-    when (val state = newsListUpdateState) {
-        is UpdateSuccess, LoadingFromAPI, ErrorFromAPI, NotAuthenticatedError -> NewsListComposable(
-            state = state,
-            onDetailsClicked = openDetailsClicked,
-            onBackClicked = onBackClicked
-        )
-    }
+
+    NewsListComposable(
+        state = newsListUpdateState,
+        isAuthenticated = isAuthenticated,
+        onDetailsClicked = openDetailsClicked,
+        onBackClicked = onBackClicked,
+        onLogoutClicked = openLoginClicked,
+        onLoginClicked = openLoginClicked,
+    )
 }
 
 @Composable
 private fun NewsListComposable(
     state: ListScreenUiState,
+    isAuthenticated: Boolean,
     onDetailsClicked: (String) -> Unit,
     onBackClicked: () -> Unit,
-) =
+    onLogoutClicked: () -> Unit,
+    onLoginClicked: () -> Unit,
+) {
     Scaffold(topBar = {
         AppBar(
             title = stringResource(id = R.string.latest_news),
-            imageVector = Icons.AutoMirrored.Filled.ArrowBack
-        ) { onBackClicked() }
-    }) {
+            navigationIcon = Icons.AutoMirrored.Filled.ArrowBack,
+            backIconClickAction = onBackClicked,
+            addLogoutButton = isAuthenticated,
+            logoutClickAction = onLogoutClicked
+        )
+    }) { paddingValues ->
         Surface(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(it)
+                .padding(paddingValues)
         ) {
-            (state as? NotAuthenticatedError)?.let {
-                ShowNotAuthenticatedError()
-            }
-            (state as? ErrorFromAPI)?.let {
-                Toast(R.string.api_error)
-            }
-            (state as? LoadingFromAPI)?.let {
-                LoadingIndicator()
-            }
-            var news by remember { mutableStateOf(emptyList<NewsListItemModel>()) }
-            (state as? UpdateSuccess)?.let {
-                news = it.news.newsItems
-
-                LazyColumn {
-                    itemsIndexed(news) { _, newsListItem ->
-                        NewsListItemCard(newsListItem = newsListItem, onDetailsClicked)
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-
-                }
+            when (state) {
+                NotAuthenticatedError -> ShowNotAuthenticatedError(onLoginClicked)
+                ErrorFromAPI -> Toast(R.string.api_error)
+                LoadingFromAPI -> LoadingIndicator()
+                is UpdateSuccess -> NewsListContent(news = state.news.newsItems, onDetailsClicked)
             }
         }
     }
+}
+
+@Composable
+private fun NewsListContent(news: List<NewsListItemModel>, onDetailsClicked: (String) -> Unit) {
+    if (news.isEmpty()) {
+        Text(
+            text = stringResource(id = R.string.no_news_available),
+            modifier = Modifier.padding(16.dp)
+        )
+    } else {
+        LazyColumn {
+            itemsIndexed(news) { _, newsListItem ->
+                NewsListItemCard(newsListItem = newsListItem, onDetailsClicked)
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+        }
+    }
+}
 
 
 @OptIn(ExperimentalGlideComposeApi::class)
@@ -121,16 +132,16 @@ private fun ArticleSourceImage(url: String) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-    GlideImage(
-        model = url,
-        loading = placeholder(R.drawable.news_logo),
-        contentDescription = stringResource(id = R.string.article_source_image),
-        modifier = Modifier
-            .size(80.dp)
-            .padding(10.dp)
-            .fillMaxWidth()
-            .wrapContentHeight(align = Alignment.CenterVertically)
-    )
+        GlideImage(
+            model = url,
+            loading = placeholder(R.drawable.news_logo),
+            contentDescription = stringResource(id = R.string.article_source_image),
+            modifier = Modifier
+                .size(80.dp)
+                .padding(10.dp)
+                .fillMaxWidth()
+                .wrapContentHeight(align = Alignment.CenterVertically)
+        )
     }
 }
 
@@ -171,23 +182,33 @@ private fun NewsListItemCard(newsListItem: NewsListItemModel, onItemCardClicked:
         ) {
             ArticleSourceImage(newsListItem.sourceIcon)
             NewsListItemContent(newsListItem)
-    }
+        }
     }
 }
 
 @Composable
-private fun ShowNotAuthenticatedError() {
+private fun ShowNotAuthenticatedError(
+    onLoginClicked: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(10.dp),
-        verticalArrangement = Arrangement.Top
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = stringResource(id = R.string.not_authenticated_error),
             fontSize = 24.sp,
-            color = Color.Red
+            color = Red
         )
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(
+            onClick = { onLoginClicked() },
+            colors = ButtonDefaults.buttonColors(containerColor = Red),
+        ) {
+            Text(text = stringResource(id = R.string.login_button), fontSize = 24.sp)
+        }
 
     }
 }
@@ -212,7 +233,9 @@ private fun NewsListScreenPreview() {
                 )
             ),
             onDetailsClicked = {},
-            onBackClicked = {})
-
+            onBackClicked = {},
+            isAuthenticated = true,
+            onLogoutClicked = {},
+            onLoginClicked = {})
     }
 }

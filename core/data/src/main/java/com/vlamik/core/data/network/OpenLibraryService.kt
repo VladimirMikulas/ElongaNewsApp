@@ -1,5 +1,7 @@
 package com.vlamik.core.data.network
 
+import com.vlamik.core.commons.ApiKey
+import com.vlamik.core.commons.ApiKeyHeader
 import com.vlamik.core.commons.BackgroundDispatcher
 import com.vlamik.core.commons.endpoints.OpenLibraryEndpoint
 import com.vlamik.core.commons.loge
@@ -15,18 +17,17 @@ import kotlin.coroutines.CoroutineContext
 class OpenLibraryService
 @Inject constructor(
     private val httpClient: OpenLibraryHttpClient,
+    @ApiKeyHeader private val apiKeyHeader: String,
+    @ApiKey private val apiKey: String,
     @BackgroundDispatcher private val coroutineContext: CoroutineContext
 ) {
-    companion object {
-        private const val API_KEY_HEADER = "X-ACCESS-KEY"
-        private const val API_KEY_VALUE = "YOUR_API_KEY"
-    }
+
 
     suspend fun getNews(): Result<NewsDto> = withContext(coroutineContext) {
         return@withContext try {
             Result.success(
                 httpClient().get {
-                    header(API_KEY_HEADER, API_KEY_VALUE)
+                    header(apiKeyHeader, apiKey)
                     url(path = OpenLibraryEndpoint.news)
                 }.body()
             )
@@ -40,7 +41,7 @@ class OpenLibraryService
         return@withContext try {
             Result.success(
                 httpClient().get {
-                    header(API_KEY_HEADER, API_KEY_VALUE)
+                    header(apiKeyHeader, apiKey)
                     url(path = OpenLibraryEndpoint.article(id))
                 }.body()
             )

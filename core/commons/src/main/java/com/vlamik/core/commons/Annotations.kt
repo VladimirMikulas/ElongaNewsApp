@@ -9,3 +9,19 @@ annotation class BackgroundDispatcher
 @javax.inject.Qualifier
 @Retention(AnnotationRetention.RUNTIME)
 annotation class ApiUrl
+
+@javax.inject.Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class ApiKeyHeader
+
+@javax.inject.Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class ApiKey
+
+@javax.inject.Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class UserEmail
+
+@javax.inject.Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class UserPassword
