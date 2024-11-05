@@ -1,16 +1,16 @@
 package com.vlamik.core.data.repositories
 
+import com.vlamik.core.commons.UserEmail
+import com.vlamik.core.commons.UserPassword
 import javax.inject.Inject
 
 
 class LoginRepositoryImpl @Inject constructor(
+    @UserEmail private val userEmail: String,
+    @UserPassword private val userPassword: String
 ) : LoginRepository {
-    companion object {
-        private const val LOGIN_EMAIL = "elonga@elonga.com"
-        private const val LOGIN_PASSWORD = "ElongaTheBest"
-    }
 
     override fun getAuthentication(email: String, password: String): Boolean =
-        email == LOGIN_EMAIL && password == LOGIN_PASSWORD
+        email == userEmail && password == userPassword
 
 }

@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id(libs.plugins.android.application.get().pluginId)
     id(libs.plugins.kotlin.android.get().pluginId)
@@ -5,8 +7,20 @@ plugins {
     id(libs.plugins.hilt.android.get().pluginId)
     id("template.coroutines")
     alias(libs.plugins.compose.compiler)
-
 }
+fun getLocalProperty(key: String): String? {
+    val properties = Properties()
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        properties.load(localPropertiesFile.inputStream())
+    }
+    return properties.getProperty(key)
+}
+
+val apiKeyHeader: String = getLocalProperty("apiKeyHeader") ?: ""
+val apiKey: String = getLocalProperty("apiKey") ?: ""
+val userEmail: String = getLocalProperty("userEmail") ?: ""
+val userPassword: String = getLocalProperty("userPassword") ?: ""
 
 android {
     compileSdk = libs.versions.sdk.compile.get().toInt()
@@ -22,6 +36,12 @@ android {
 
         testInstrumentationRunner = "com.vlamik.news.TestRunner"
         vectorDrawables { useSupportLibrary = true }
+        buildConfigField("String", "API_KEY_HEADER", "\"$apiKeyHeader\"")
+        buildConfigField("String", "API_KEY", "\"$apiKey\"")
+        buildConfigField("String", "USER_EMAIL", "\"$userEmail\"")
+        buildConfigField("String", "USER_PASSWORD", "\"$userPassword\"")
+
+
     }
 
     buildTypes {
