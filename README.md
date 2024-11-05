@@ -1,2 +1,10 @@
-1. Before first install and run of application please set com.vlamik.core.data.network.OpenLibraryService#API_KEY_VALUE to your NewsData.io API_KEY value
-2. Use this static login info: e-mail: elonga@elonga.com, password: ElongaTheBest
+Before first install and run of application please add to your project root directory local.properties file:
+1. NewsData.io API_KEY:
+   
+apiKeyHeader=YOUR_API_KEY_HEADER
+apiKey=YOUR_API_KEY
+  
+3. Static login data:
+   
+userEmail=your_email
+userPassword=your_password
