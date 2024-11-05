@@ -5,7 +5,11 @@ import androidx.annotation.VisibleForTesting
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import com.vlamik.core.commons.ApiKey
+import com.vlamik.core.commons.ApiKeyHeader
 import com.vlamik.core.commons.ApiUrl
+import com.vlamik.core.commons.UserEmail
+import com.vlamik.core.commons.UserPassword
 import com.vlamik.core.commons.endpoints.OpenLibraryEndpoint
 import com.vlamik.core.data.repositories.AppRepository
 import com.vlamik.core.data.repositories.AppRepositoryImpl
@@ -13,6 +17,7 @@ import com.vlamik.core.data.repositories.LoginRepository
 import com.vlamik.core.data.repositories.LoginRepositoryImpl
 import com.vlamik.core.data.repositories.NewsRepository
 import com.vlamik.core.data.repositories.NewsRepositoryImpl
+import com.vlamik.news.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,12 +31,29 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 open class DataModule {
 
+    @Provides
+    @UserEmail
+    fun userEmail(): String = BuildConfig.USER_EMAIL
+
+    @Provides
+    @UserPassword
+    fun userPassword(): String = BuildConfig.USER_PASSWORD
+
     @VisibleForTesting
     internal open val baseUrl = OpenLibraryEndpoint.baseUrl
 
     @Provides
     @ApiUrl
     fun apiUrl(): String = baseUrl
+
+    @Provides
+    @ApiKeyHeader
+    fun apiKeyHeader(): String = BuildConfig.API_KEY_HEADER
+
+    @Provides
+    @ApiKey
+    fun apiKey(): String = BuildConfig.API_KEY
+
 
     protected open fun internalHttpClientEngine(): HttpClientEngineFactory<*> = Android
 

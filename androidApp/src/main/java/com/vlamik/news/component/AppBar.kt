@@ -6,6 +6,7 @@ import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -18,9 +19,11 @@ private const val SHARE_DATA_TYPE = "text/plain"
 @Composable
 fun AppBar(
     title: String,
-    imageVector: ImageVector,
+    navigationIcon: ImageVector,
     shareData: String = "",
-    backIconClickAction: () -> Unit
+    backIconClickAction: () -> Unit,
+    addLogoutButton: Boolean = false,
+    logoutClickAction: () -> Unit = {},
 ) {
     val context = LocalContext.current
     TopAppBar(
@@ -31,7 +34,7 @@ fun AppBar(
         },
         navigationIcon = {
             IconButton(onClick = { backIconClickAction() }) {
-                Icon(imageVector = imageVector, contentDescription = "")
+                Icon(imageVector = navigationIcon, contentDescription = "")
             }
         }, actions = {
             if (shareData.isNotEmpty()) {
@@ -50,6 +53,11 @@ fun AppBar(
                         imageVector = Icons.AutoMirrored.Filled.Send,
                         contentDescription = stringResource(id = R.string.share_via)
                     )
+                }
+            }
+            if (addLogoutButton) {
+                TextButton(onClick = { logoutClickAction() }) {
+                    Text(text = "Logout")
                 }
             }
         }
